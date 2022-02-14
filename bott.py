@@ -506,7 +506,7 @@ async def process_video_command(call: CallbackQuery):
         
     else:
         await bot.delete_message(call.from_user.id, call.message.message_id)
-        await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
+        #await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
     S.buffer=8
     S.switch=0
 

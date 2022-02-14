@@ -486,7 +486,7 @@ async def process_video_command(call: CallbackQuery):
     if check_sub_channel(await bot.get_chat_member(chat_id=channel_id, user_id=call.from_user.id)):
         await bot.delete_message(call.from_user.id, call.message.message_id)
         await bot.send_photo(call.from_user.id, caption='*Описание:* \nДжин Сон нигде не может найти утешения. В школе над ним безжалостно издеваются из-за его замкнутого характера и слабого здоровья. Однако не это является источником непреодолимого ужаса Джина: то, что он боится больше всего, — это его собственный отец. Для большинства отец Джина — отзывчивый человек, успешный бизнесмен и любящий родитель. Но это только видимость.\n*Оценка на мангалибе: 4.9*', photo='AgACAgIAAxkDAAIL4mIKCLC-SvMBGl0V-UIYFhKsETAYAALCtTEb2xlRSI96MNJPRWRBAQADAgADeAADIwQ', reply_markup=clavaChangeState, parse_mode="Markdown")
-        await call.message.answer('Джин Сон нигде не может найти утешения. В школе над ним безжалостно издеваются из-за его замкнутого характера и слабого здоровья. Однако не это является источником непреодолимого ужаса Джина: то, что он боится больше всего, — это его собственный отец. Для большинства отец Джина — отзывчивый человек, успешный бизнесмен и любящий родитель. Но это только видимость. Оценка на мангалибе: 4.9', reply_markup=clavaChangeState)
+        #await call.message.answer('Джин Сон нигде не может найти утешения. В школе над ним безжалостно издеваются из-за его замкнутого характера и слабого здоровья. Однако не это является источником непреодолимого ужаса Джина: то, что он боится больше всего, — это его собственный отец. Для большинства отец Джина — отзывчивый человек, успешный бизнесмен и любящий родитель. Но это только видимость. Оценка на мангалибе: 4.9', reply_markup=clavaChangeState)
         
     else:
         await bot.delete_message(call.from_user.id, call.message.message_id)
@@ -506,7 +506,7 @@ async def process_video_command(call: CallbackQuery):
         
     else:
         await bot.delete_message(call.from_user.id, call.message.message_id)
-        #await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
+        await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
     S.buffer=8
     S.switch=0
 

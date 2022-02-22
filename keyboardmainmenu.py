@@ -9,10 +9,12 @@ from aiogram.types import ReplyKeyboardRemove, \
 
 clava = InlineKeyboardMarkup(row_width=1)
 btnreturnmenu=InlineKeyboardButton(text='вернуться в меню', callback_data='returnMenu')
-buy_pear1 = InlineKeyboardButton(text="доступные манхвы", callback_data="топ")
+buy_pear1 = InlineKeyboardButton(text="какой жанр хочешь почитать?👀", callback_data="топ")
 buy_pear13=InlineKeyboardButton(text="манхвы 18+", callback_data="18+")
 buy_pear15=InlineKeyboardButton(text="управление подпиской", callback_data="subscribemanagment")
+zakladki=InlineKeyboardButton(text="Закладки", callback_data="zakladki")
 clava.insert(buy_pear1)
+#clava.insert(zakladki)
 #clava.insert(buy_pear13)
 #clava.insert(buy_pear15)
 
@@ -25,9 +27,11 @@ clavaChangeState=InlineKeyboardMarkup(row_width=1)
 buy_pear5 = InlineKeyboardButton(text="начать читать с начала", callback_data="начать с начала")
 buy_pear6 = InlineKeyboardButton(text="я знаю с какой главы хочу читать", callback_data="поиск главы")
 subscribe = InlineKeyboardButton(text="подписаться на выход новой главы", callback_data="subscribeNew")
+download=InlineKeyboardButton(text="прислать все главы сразу", callback_data="download")
 clavaChangeState.insert(buy_pear5)
 clavaChangeState.insert(buy_pear6)
 clavaChangeState.insert(subscribe)
+clavaChangeState.insert(download)
 clavaChangeState.insert(btnreturnmenu)
 
 

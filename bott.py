@@ -485,10 +485,15 @@ async def process_video_command(call: CallbackQuery):
     buffer=db.statebuffer(call.from_user.id)
     list_keys = list(Maindict[buffer].keys())
     k=len(list_keys)
-    await bot.send_message(call.from_user.id, text="высылаю все главы этой манхвы, wait...")
-    for i in range(1,k):
-        await asyncio.sleep(0.2)
-        await bot.send_document(call.from_user.id, Maindict[buffer][i])
+    await bot.send_message(call.from_user.id, text="высылаю все главы этой манхвы, wait... если что-то пошло не так - пиши /start")
+    if (buffer==16):
+        for i in range(140,k):
+            await asyncio.sleep(0.2)
+            await bot.send_document(call.from_user.id, Maindict[buffer][i])
+    else:
+        for i in range(1,k):
+            await asyncio.sleep(0.2)
+            await bot.send_document(call.from_user.id, Maindict[buffer][i])
     await bot.send_message(call.from_user.id, text="Хорошего чтения", reply_markup=returN)
 
 

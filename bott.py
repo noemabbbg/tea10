@@ -487,7 +487,7 @@ async def process_video_command(call: CallbackQuery):
     k=len(list_keys)
     await bot.send_message(call.from_user.id, text="высылаю все главы этой манхвы, wait... если что-то пошло не так - пиши /start")
     if (buffer==16):
-        for i in range(140,k):
+        for i in range(140,206):
             await asyncio.sleep(0.2)
             await bot.send_document(call.from_user.id, Maindict[buffer][i])
     else:

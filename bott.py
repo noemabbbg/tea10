@@ -1,6 +1,5 @@
 import asyncio
 import logging
-from turtle import delay
 import unittest
 import random
 from collections import defaultdict

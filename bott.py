@@ -243,7 +243,7 @@ async def process_start_command(message: types.Message):
             if not (db.user_exists(message.from_user.id)):
                 db.add_user(message.from_user.id)
     else:
-         await bot.send_message(message.from_user.id, 'подписка чек', reply_markup=checkSubm)
+         await bot.send_message(message.from_user.id, 'Для работы бота подпишись пожалуйста на канал со всеми новостями и обновлениями, спасибо!', reply_markup=checkSubm)
          if not (db.user_exists(message.from_user.id)):
             db.add_user(message.from_user.id)
 

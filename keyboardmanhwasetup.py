@@ -89,7 +89,6 @@ Clavaromantik.insert(MyfirstLove)
 Clavaromantik.insert(LoveYourEnemy)
 Clavaromantik.insert(MirKot)
 Clavaromantik.insert(yastalamateriugg)
-Clavaromantik.insert(svyatidol)
 Clavaromantik.insert(VtorayShiznZlodeyki)
 Clavaromantik.insert(zlodeykaperevnulac)
 Clavaromantik.insert(tridvedma)
@@ -124,6 +123,7 @@ ClavaIsekai=InlineKeyboardMarkup(row_width=1)
 ClavaIsekai.insert(charstvoboevixisk)
 ClavaIsekai.insert(ReinkarVoen)       #2
 ClavaIsekai.insert(VosvrashenieMax)
+ClavaIsekai.insert(svyatidol)
 ClavaIsekai.insert(back)
 
 

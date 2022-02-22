@@ -344,7 +344,7 @@ async def subfunc(call:CallbackQuery):
     callback_data = call.data
     logging.info(f"callback_data='{callback_data}'")
     if check_sub_channel(await bot.get_chat_member(chat_id=channel_id, user_id=call.from_user.id)):
-        await call.message.answer(text="start", reply_markup=clava)
+        await call.message.answer(text="привет! сейчас бот работает в тестовом режиме и я буду очень рад, если ты напишешь мне обратную свзяь по работе бота, спасибо! @bububucheel", reply_markup=clava)
     else:
         await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
 

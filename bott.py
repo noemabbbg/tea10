@@ -479,7 +479,10 @@ async def nextSERIA(message:types.Message):
     db.addsearch(message.from_user.id, search1)
     search=db.statesearch(message.from_user.id)
     try:
-        await bot.send_document(message.from_user.id, Maindict[buffer][search], reply_markup=nextchapter) 
+        if (buffer>=17):
+            await bot.send_document(message.from_user.id, Maindict2[buffer][search], reply_markup=nextchapter) 
+        else:
+            await bot.send_document(message.from_user.id, Maindict[buffer][search], reply_markup=nextchapter) 
     except:
          await bot.send_message(message.from_user.id, text="кажется эта глава еще не добавлена :(,\n попробуй что нибудь другое", reply_markup=clavaTOP)
 

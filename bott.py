@@ -423,8 +423,12 @@ async def process_video_command(call: CallbackQuery):
     callback_data = call.data
     logging.info(f"callback_data='{callback_data}'")
     await call.message.answer('доступные главы:')
-    list_keys = list(Maindict[buffer].keys())
-    list_keys.sort()
+    if (buffer>=17):
+                list_keys = list(Maindict2[buffer].keys())
+                list_keys.sort()
+    else:
+                list_keys = list(Maindict[buffer].keys())
+                list_keys.sort()
     await bot.send_message(call.from_user.id, text=(list_keys))
     await call.message.answer('введи номер главы с которой ты хочешь продолжить читать')
     @dp.message_handler()

@@ -118,10 +118,13 @@ class Database():
             ###блок Search
     def addsearch(self,user_id, search):
         with self.connection:
+            self.connection.commit()
             return self.cursor.execute("UPDATE 'users' SET 'search' = ? WHERE user_id=?",(search, user_id,))
+            
     def statesearch(self, user_id):
         with self.connection:
             result=self.cursor.execute("SELECT * FROM 'users' WHERE user_id=?",(user_id,)).fetchall()
+            self.connection.commit()
             return result[0][11]
     
 
@@ -139,6 +142,19 @@ class get():  # сделаю буфферную k которая будет ов
             g=[0,]
             for row in rows:  
                 g.append(row[k])
+            return(g)
+
+    def get_user_num(k):
+        
+            sqlite_connection = sqlite3.connect('testdatabase1.db')
+            cursor = sqlite_connection.cursor()
+
+            sqlite_select_query = """SELECT * from users"""
+            cursor.execute(sqlite_select_query)
+            rows = cursor.fetchall()
+            g=0
+            for row in rows:  
+                g+=1
             return(g)
     
     

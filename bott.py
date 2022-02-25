@@ -24,6 +24,7 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from manhwaclass import stateManhwa, is_number
 import dictant
 from dictant import Maindict, SuicideBoy
+from dictant2 import Maindict2
 import os
 from mysql.connector import MySQLConnection
 from aiogram_broadcaster import TextBroadcaster
@@ -433,19 +434,22 @@ async def process_video_command(call: CallbackQuery):
             search=db.statesearch(message.from_user.id)
             buffer=db.statebuffer(message.from_user.id)
             user_id = message.from_user.id
-            
+            if (buffer>=17):
+                slovo=Maindict2[buffer][search]
+            else:
+                slovo=Maindict[buffer][search]
             if buff==S.payfullChapters[buffer]:
                    if db.state_subscribe(message.from_user.id)==1:
                         try:
                             await bot.send_message(message.from_user.id, text='глава по подписке')
-                            await bot.send_document(message.from_user.id, document=Maindict[buffer][search], reply_markup=nextchapter)
+                            await bot.send_document(message.from_user.id, document=slovo, reply_markup=nextchapter)
                         except:
                             await bot.send_message(message.from_user.id, text='кажется этой главы еще нет :(', reply_markup=clavaTOP)
                    else:
                         await bot.send_message(message.from_user.id, text='эта глава доступна по подписке')
             else:
                 try:
-                    await bot.send_document(message.from_user.id, document=Maindict[buffer][search], reply_markup=nextchapter)
+                    await bot.send_document(message.from_user.id, document=slovo, reply_markup=nextchapter)
                 except:
                     await bot.send_message(message.from_user.id, text='кажется этой главы еще нет :(', reply_markup=clavaTOP)
 

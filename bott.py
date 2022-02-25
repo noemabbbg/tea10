@@ -1,8 +1,6 @@
 import asyncio
 import logging
-import unittest
 import random
-from collections import defaultdict
 import manhwaclass
 import aiogram_broadcaster
 from aiogram import Bot, types
@@ -54,7 +52,7 @@ async def subchanneldone(message: types.Message):
     await bot.send_message('133886300', text="broadcast1337 sheesh")
 @dp.message_handler(commands=['sheesh'])
 async def subchanneldone(message: types.Message):
-    await bot.send_message('133886300', text=get.get_user(1))
+    await bot.send_message('133886300', text=get.get_user_num(1))
 
 @dp.message_handler(commands=['norqo'])
 async def subchanneldone(message: types.Message):
@@ -424,11 +422,9 @@ async def process_video_command(call: CallbackQuery):
     callback_data = call.data
     logging.info(f"callback_data='{callback_data}'")
     await call.message.answer('доступные главы:')
-    
     list_keys = list(Maindict[buffer].keys())
     list_keys.sort()
     await bot.send_message(call.from_user.id, text=(list_keys))
-   
     await call.message.answer('введи номер главы с которой ты хочешь продолжить читать')
     @dp.message_handler()
     async def buffer(message: types.Message):
@@ -765,23 +761,6 @@ async def process_video_command(call: CallbackQuery):
         await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
     buffer=18
     db.addbuffer(call.from_user.id, buffer)
-
-@dp.callback_query_handler(text_contains="GreenLight")
-async def process_video_command(call: CallbackQuery):
-    await call.answer(cache_time=60)
-    callback_data = call.data
-    logging.info(f"callback_data='{callback_data}'")
-    if check_sub_channel(await bot.get_chat_member(chat_id=channel_id, user_id=call.from_user.id)):
-        await bot.delete_message(call.from_user.id, call.message.message_id)
-        await bot.send_photo(call.from_user.id, caption='*Описание:* \n«…Я хочу воплотить ваш образ в скульптуре. В форме, что навеки останется неизменной". В городе, полном высотных зданий, Мэттью Рейнор, студент-скульптор, живет жизнью одиночки, изолировавшись от остального мира. Неожиданно он встречает на своем пути прекрасного мужчину по имени Цзинь Цинь-Ю и чувствует, что эта встреча была дарована ему самой судьбой. Мэттью делает мужчине предложение: стать моделью для его скульптуры. \n*Оценка на мангалибе: 4.94*\n яой', photo=".", reply_markup=clavaChangeState, parse_mode="Markdown")
-        #await call.message.answer(text='*Описание:* \nЯ стала злодейкой любовного романа. Думаете, меня что-то не устраивает? Нет, всё просто прекрасно. Статус дочери герцога даёт возможность жить в роскоши и комфорте, и я собираюсь извлечь всю выгоду из своего нынешнего положения. Но, хотя я не хочу идти по пути антагонистки, белой и пушистой тоже не буду. Мой жених изменил мне с главной героиней, поэтому я перепишу оригинальную историю и поставлю всех на колени. Эти ублюдки не стоят моих слёз. \n*оценка на мангалибе: 4.83*', reply_markup=clavaChangeState, parse_mode="Markdown")
-        
-    else:
-        await bot.delete_message(call.from_user.id, call.message.message_id)
-        await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
-    buffer=19
-    db.addbuffer(call.from_user.id, buffer)
-
 
 
 @dp.callback_query_handler(text_contains="Svinarnik")

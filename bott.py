@@ -469,8 +469,10 @@ async def process_video_command(call: CallbackQuery):
     logging.info(f"callback_data='{callback_data}'")
     buffer=db.statebuffer(call.from_user.id)
     await call.message.answer('чтение с нулевой главы')
-    await call.bot.send_document(call.from_user.id, document=Maindict[buffer][1], reply_markup=nextchapter)
-
+    if (buffer>=17):
+        await call.bot.send_document(call.from_user.id, document=Maindict2[buffer][1], reply_markup=nextchapter)
+    else:
+        await call.bot.send_document(call.from_user.id, document=Maindict2[buffer][1], reply_markup=nextchapter)
 
 @dp.callback_query_handler(text_contains="next")
 async def nextSERIA(message:types.Message): 

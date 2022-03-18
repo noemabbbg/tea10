@@ -34,7 +34,11 @@ from db import Database, get
 from pyqiwip2p import QiwiP2P
 from pathlib import Path
 
-db=Database('testdatabase1.db')
+#if get.get_user_num(1)>1095:
+#    basa='testdatabase2.db'
+#else:
+basa='testdatabase1.db'
+db=Database(basa)
 S=stateManhwa()
 storage=MemoryStorage()
 p2p=QiwiP2P(auth_key=QIWI_TOKEN)
@@ -477,16 +481,24 @@ async def process_video_command(call: CallbackQuery):
 @dp.callback_query_handler(text_contains="next")
 async def nextSERIA(message:types.Message): 
     buffer=db.statebuffer(message.from_user.id)
-    search1=db.statesearch(message.from_user.id)+1
-    db.addsearch(message.from_user.id, search1)
-    search=db.statesearch(message.from_user.id)
-    try:
+    if db.statesearch(message.from_user.id) == 1:
+        #await bot.send_message(message.from_user.id, text=f":2")
         if (buffer>=17):
-            await bot.send_document(message.from_user.id, Maindict2[buffer][search], reply_markup=nextchapter) 
+            await bot.send_video(message.from_user.id, Maindict2[buffer][2], reply_markup=nextchapter)
         else:
-            await bot.send_document(message.from_user.id, Maindict[buffer][search], reply_markup=nextchapter) 
-    except:
-         await bot.send_message(message.from_user.id, text="кажется эта глава еще не добавлена :(,\n попробуй что нибудь другое", reply_markup=clavaTOP)
+            await bot.send_video(message.from_user.id, Maindict[buffer][2], reply_markup=nextchapter) 
+        db.addsearch(message.from_user.id, 2)
+    else:
+        search1=db.statesearch(message.from_user.id)+1
+        db.addsearch(message.from_user.id, search1)
+        search=db.statesearch(message.from_user.id)
+        try:
+            if (buffer>=17):
+                await bot.send_document(message.from_user.id, Maindict2[buffer][search], reply_markup=nextchapter) 
+            else:
+                await bot.send_document(message.from_user.id, Maindict[buffer][search], reply_markup=nextchapter) 
+        except:
+            await bot.send_message(message.from_user.id, text="кажется эта глава еще не добавлена :(,\n попробуй что нибудь другое", reply_markup=clavaTOP)
 
 
 @dp.callback_query_handler(text_contains="download")
@@ -506,11 +518,20 @@ async def process_video_command(call: CallbackQuery):
     await bot.send_message(call.from_user.id, text="Хорошего чтения", reply_markup=returN)
 
 
+@dp.callback_query_handler(text="add_zakladki")
+async def zakladki(call:CallbackQuery):
+    user_id=call.from_user.id
+    buffer=db.statebuffer(call.from_user.id)
+    manhwa=str(Maindict[buffer].key)
+    
 
+    
 
 ##### требует конкретной записи, но куда и как?????
 @dp.callback_query_handler(text="zakladki")
 async def zakladki(call:CallbackQuery):
+    user_id=call.from_user.id
+
     pass # вариант реализации не оч понятен 
 
 

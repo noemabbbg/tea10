@@ -474,9 +474,9 @@ async def process_video_command(call: CallbackQuery):
     buffer=db.statebuffer(call.from_user.id)
     await call.message.answer('чтение с нулевой главы')
     if (buffer>=17):
-        await call.bot.send_document(call.from_user.id, document=Maindict2[buffer][1], reply_markup=nextchapter)
+        await call.bot.send_document(call.from_user.id, Maindict2[buffer][1], reply_markup=nextchapter)
     else:
-        await call.bot.send_document(call.from_user.id, document=Maindict2[buffer][1], reply_markup=nextchapter)
+        await call.bot.send_document(call.from_user.id, Maindict2[buffer][1], reply_markup=nextchapter)
 
 @dp.callback_query_handler(text_contains="next")
 async def nextSERIA(message:types.Message): 
@@ -484,9 +484,9 @@ async def nextSERIA(message:types.Message):
     if db.statesearch(message.from_user.id) == 1:
         #await bot.send_message(message.from_user.id, text=f":2")
         if (buffer>=17):
-            await bot.send_document(message.from_user.id, document=Maindict2[buffer][2], reply_markup=nextchapter)
+            await bot.send_document(message.from_user.id, Maindict2[buffer][2], reply_markup=nextchapter)
         else:
-            await bot.send_document(message.from_user.id, document=Maindict[buffer][2], reply_markup=nextchapter) 
+            await bot.send_document(message.from_user.id, Maindict[buffer][2], reply_markup=nextchapter) 
         db.addsearch(message.from_user.id, 2)
     else:
         search1=db.statesearch(message.from_user.id)+1

@@ -23,8 +23,8 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from manhwaclass import stateManhwa, is_number
 import dictant
-from dictant import Maindict, SuicideBoy
-from dictant2 import Maindict2
+from dictant import Maindict
+
 import os
 from mysql.connector import MySQLConnection
 from aiogram_broadcaster import TextBroadcaster
@@ -427,12 +427,8 @@ async def process_video_command(call: CallbackQuery):
     callback_data = call.data
     logging.info(f"callback_data='{callback_data}'")
     await call.message.answer('доступные главы:')
-    if (buffer>=17):
-                list_keys = list(Maindict2[buffer].keys())
-                list_keys.sort()
-    else:
-                list_keys = list(Maindict[buffer].keys())
-                list_keys.sort()
+    list_keys = list(Maindict[buffer].keys())
+    list_keys.sort()
     await bot.send_message(call.from_user.id, text=(list_keys))
     await call.message.answer('введи номер главы с которой ты хочешь продолжить читать')
     @dp.message_handler()
@@ -442,10 +438,9 @@ async def process_video_command(call: CallbackQuery):
             search=db.statesearch(message.from_user.id)
             buffer=db.statebuffer(message.from_user.id)
             user_id = message.from_user.id
-            if (buffer>=17):
-                slovo=Maindict2[buffer][search]
-            else:
-                slovo=Maindict[buffer][search]
+            
+           
+            slovo=Maindict[buffer][search]
             if buff==S.payfullChapters[buffer]:
                    if db.state_subscribe(message.from_user.id)==1:
                         try:
@@ -473,30 +468,20 @@ async def process_video_command(call: CallbackQuery):
     logging.info(f"callback_data='{callback_data}'")
     buffer=db.statebuffer(call.from_user.id)
     await call.message.answer('чтение с нулевой главы')
-    if (buffer>=17):
-        await call.bot.send_document(call.from_user.id, Maindict2[buffer][1], reply_markup=nextchapter)
-    else:
-        await call.bot.send_document(call.from_user.id, Maindict2[buffer][1], reply_markup=nextchapter)
+    await call.bot.send_document(call.from_user.id, document=Maindict[buffer][1], reply_markup=nextchapter)
 
 @dp.callback_query_handler(text_contains="next")
 async def nextSERIA(message:types.Message): 
     buffer=db.statebuffer(message.from_user.id)
     if db.statesearch(message.from_user.id) == 1:
-        #await bot.send_message(message.from_user.id, text=f":2")
-        if (buffer>=17):
-            await bot.send_document(message.from_user.id, Maindict2[buffer][2], reply_markup=nextchapter)
-        else:
-            await bot.send_document(message.from_user.id, Maindict[buffer][2], reply_markup=nextchapter) 
+        await bot.send_document(message.from_user.id, document=Maindict[buffer][2], reply_markup=nextchapter) 
         db.addsearch(message.from_user.id, 2)
     else:
         search1=db.statesearch(message.from_user.id)+1
         db.addsearch(message.from_user.id, search1)
         search=db.statesearch(message.from_user.id)
         try:
-            if (buffer>=17):
-                await bot.send_document(message.from_user.id, Maindict2[buffer][search], reply_markup=nextchapter) 
-            else:
-                await bot.send_document(message.from_user.id, Maindict[buffer][search], reply_markup=nextchapter) 
+            await bot.send_document(message.from_user.id, document=Maindict[buffer][search], reply_markup=nextchapter) 
         except:
             await bot.send_message(message.from_user.id, text="кажется эта глава еще не добавлена :(,\n попробуй что нибудь другое", reply_markup=clavaTOP)
 

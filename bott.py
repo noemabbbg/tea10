@@ -484,9 +484,9 @@ async def nextSERIA(message:types.Message):
     if db.statesearch(message.from_user.id) == 1:
         #await bot.send_message(message.from_user.id, text=f":2")
         if (buffer>=17):
-            await bot.send_video(message.from_user.id, Maindict2[buffer][2], reply_markup=nextchapter)
+            await bot.send_document(message.from_user.id, document=Maindict2[buffer][2], reply_markup=nextchapter)
         else:
-            await bot.send_video(message.from_user.id, Maindict[buffer][2], reply_markup=nextchapter) 
+            await bot.send_document(message.from_user.id, document=Maindict[buffer][2], reply_markup=nextchapter) 
         db.addsearch(message.from_user.id, 2)
     else:
         search1=db.statesearch(message.from_user.id)+1

@@ -6,22 +6,41 @@ import array
 from dictant import SuicideBoy
 
 
-
+basa='testdatabase1.db'
 
 
 class Database():
     def __init__(self, db_file):
-        self.connection=sqlite3.connect('testdatabase1.db')
+        self.connection=sqlite3.connect(basa)
         self.cursor=self.connection.cursor()
 
 
+    def add_zakladka(self, user_id, title_id):
+        with self.connection:
+            return self.cursor.execute("INSERT INTO 'zakladki' ('user_id','title_id') VALUES (?,?)", (user_id, title_id,))
+    def delete_zakladka(self, user_id, title_id):
+        with self.connection:
+            return self.cursor.execute("DELETE FROM 'zakladki' WHERE 'title_id'=?",(title_id,))
+            
+    def state_zakladka(self, user_id):
+        with self.connection:
+            result =  self.cursor.execute("SELECT * FROM 'zakladki' WHERE user_id=?",(user_id,)).fetchall()
+            user_titles=[]
+            for i in range(0,len(result)):
+               user_titles.append(result[i][1])
+            for i in range(0,len(user_titles)):
+                user_titles[i] = int(user_titles[i])
+            return user_titles 
     def add_user(self,user_id):
         with self.connection:
             return self.cursor.execute("INSERT INTO 'users' ('user_id') VALUES (?)", (user_id,))
+            self.connection.commit()
     def user_exists(self, user_id):
         with self.connection:
             result=self.cursor.execute("SELECT * FROM 'users' WHERE user_id = (?)", (user_id,)).fetchall()
+            self.connection.commit()
             return bool(len(result))
+            
     def user_money(self, user_id):
         with self.connection:
             result=self.cursor.execute("SELECT * FROM 'users' WHERE user_id = (?)", (user_id,)).fetchall()
@@ -126,14 +145,19 @@ class Database():
             result=self.cursor.execute("SELECT * FROM 'users' WHERE user_id=?",(user_id,)).fetchall()
             self.connection.commit()
             return result[0][11]
-    
+    def add_zakladki(self,user_id, manhwa):
+        with self.connection:
+            return self.cursor.execute(f"INSERT INTO 'zakladki' ('user_id', '{manhwa}') VALUES (?,?)", (user_id, manhwa,))
+
+
+
 
 
 
 class get():  # сделаю буфферную k которая будет овтечать за то, какой столбец я беру - с айди или тех кто на что подписан  
     def get_user(k):
         
-            sqlite_connection = sqlite3.connect('testdatabase1.db')
+            sqlite_connection = sqlite3.connect(basa)
             cursor = sqlite_connection.cursor()
 
             sqlite_select_query = """SELECT * from users"""
@@ -146,7 +170,7 @@ class get():  # сделаю буфферную k которая будет ов
 
     def get_user_num(k):
         
-            sqlite_connection = sqlite3.connect('testdatabase1.db')
+            sqlite_connection = sqlite3.connect(basa)
             cursor = sqlite_connection.cursor()
 
             sqlite_select_query = """SELECT * from users"""

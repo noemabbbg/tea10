@@ -37,8 +37,38 @@ TokyoGhoul=InlineKeyboardButton(text="Токийский гуль", callback_dat
 TokyoGhoulRE=InlineKeyboardButton(text="Токийский гуль: Перерождение", callback_data="TokyoGhoulRE")
 SaveMe=InlineKeyboardButton(text="Спаси меня", callback_data="SaveMe")
 NeudPravda=InlineKeyboardButton(text="Неудобная правда🔥🔥🔥", callback_data="NeudPravda")
-
-
+Zero=InlineKeyboardButton(text='У вас пока нет ничего в закладках', callback_data='returnMenu') 
+EPTA = [Zero, Zero,Zero,Zero, buy_pear12, 
+SCB, 
+box, 
+Bastard, 
+buy_pear13, 
+buy_pear14, 
+princ, 
+chertovka, 
+chizel, 
+Born, 
+Annara, 
+SweetHome, 
+KRD, 
+MyfirstLove, 
+LoveYourEnemy, 
+Svinarnik,
+Vetrolom,
+VosvrashenieMax,
+VtorayShiznZlodeyki,
+MirKot,
+tridvedma,
+charstvoboevixisk,
+zlodeykaperevnulac,
+kusatludeiinepravilno,
+svyatidol,
+yastalamateriugg,
+TokyoGhoul,
+TokyoGhoulRE,
+ReinkarVoen,
+SaveMe,
+NeudPravda, ]
 
 back=InlineKeyboardButton(text="вернуться↩️", callback_data="Back")
 clavaTOP.insert(SCB)
@@ -89,6 +119,7 @@ Clavaromantik.insert(MyfirstLove)
 Clavaromantik.insert(LoveYourEnemy)
 Clavaromantik.insert(MirKot)
 Clavaromantik.insert(yastalamateriugg)
+Clavaromantik.insert(svyatidol)
 Clavaromantik.insert(VtorayShiznZlodeyki)
 Clavaromantik.insert(zlodeykaperevnulac)
 Clavaromantik.insert(tridvedma)
@@ -123,7 +154,6 @@ ClavaIsekai=InlineKeyboardMarkup(row_width=1)
 ClavaIsekai.insert(charstvoboevixisk)
 ClavaIsekai.insert(ReinkarVoen)       #2
 ClavaIsekai.insert(VosvrashenieMax)
-ClavaIsekai.insert(svyatidol)
 ClavaIsekai.insert(back)
 
 

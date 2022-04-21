@@ -2881,7 +2881,12 @@ NeudPravda={
 44: 'BQACAgIAAxkDAAJGwWIU3sLDi3KAFUhMKRK1S11KJI2VAAJYFQAC7mKpSE5lnszkOYs9IwQ', 
 50: 'BQACAgIAAxkDAAJGwGIU3mIzH8MOzBojZeBorx9hQ_tQAAJXFQAC7mKpSEzmlNZpeesjIwQ', 
 }
+tvoeImya={
+     1:"BAACAgIAAxkBAAEOz4ViNHOQNkBQ-B4xRbqn8-EyPbQwbAACrA8AAmir0Uq_ZnW0jxU-YyME"
+}
 
+dityaShud={1:'BAACAgIAAxkBAAEOz49iNHTWvsEYAAEHwG0gu4smjycXLVYAAiIGAAIHncFJf0EIH5epAAF7IwQ'}
+KRDInfinityPoezd={1:'BAACAgIAAxkBAAEOz41iNHTOHtxIjQl-dDfVLDgEz9VntQACnhEAAqk5QUjAx-sFe3OB1SME'}
 
 Maindict={  
 4:Eliced, 
@@ -2915,7 +2920,9 @@ Maindict={
 33:ReinkarVoen,
 34:SaveMe,
 35:NeudPravda,
-100:Hent1
+100:tvoeImya,
+101:dityaShud,
+102:KRDInfinityPoezd
 }
 
 

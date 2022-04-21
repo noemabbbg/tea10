@@ -2,6 +2,9 @@ import asyncio
 import logging
 import random
 import manhwaclass
+from aiogram.types import ReplyKeyboardRemove, \
+    ReplyKeyboardMarkup, KeyboardButton, \
+    InlineKeyboardMarkup, InlineKeyboardButton
 import aiogram_broadcaster
 from aiogram import Bot, types
 from aiogram.utils import executor
@@ -179,7 +182,7 @@ dp.register_message_handler(start_broadcast, state='broadcast_text10', content_t
 @dp.message_handler(commands=['balance'])
 async def process_start_command(message: types.Message):
     await bot.send_message(message.from_user.id, f"СЧЕТ: {db.user_money(message.from_user.id)} руб.", reply_markup=topup)
-@dp.callback_query_handler(text_contains="popolnit")
+@dp.callback_query_handler(text="popolnit")
 async def process_video_command(call: CallbackQuery): 
     
     message_money=100
@@ -195,7 +198,7 @@ async def chet(call: CallbackQuery):
     else:
         await bot.send_message(call.from_user.id, f"сейчас на твоем балансе: {db.user_money(call.from_user.id)} руб.")
         await bot.send_message(call.from_user.id, "подписка дает доступ к самым последним главам таких манхв как:  чтобы ее купить нужно пополнить счет на 100рублей и купить по кнопке :)", reply_markup=topup)
-@dp.callback_query_handler(text_contains="check_")
+@dp.callback_query_handler(text="check_")
 async def process_video_command(call: CallbackQuery):
     bill=str(call.data[6:])
     info=db.get_check(bill)
@@ -250,7 +253,7 @@ async def process_start_command(message: types.Message):
          if not (db.user_exists(message.from_user.id)):
             db.add_user(message.from_user.id)
 
-@dp.callback_query_handler(text_contains="returnMenu")
+@dp.callback_query_handler(text="returnMenu")
 async def process_video_command(call: CallbackQuery):
     await bot.delete_message(call.from_user.id, call.message.message_id)
     await call.message.answer(text="буду рад обратной связи :) @bububucheel",reply_markup=clava)
@@ -258,7 +261,14 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
     db.addsearch(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="subscribeNew")    # подписка на выход новых глав чего-либо (реализовать в одном модуле)
+
+@dp.callback_query_handler(text="film")
+async def process_video_command(call: CallbackQuery):
+    await bot.delete_message(call.from_user.id, call.message.message_id)
+    await call.message.answer(text="ladno",reply_markup=keyboardmainmenu.filmClava)
+    
+
+@dp.callback_query_handler(text="subscribeNew")    # подписка на выход новых глав чего-либо (реализовать в одном модуле)
 async def broad(call:CallbackQuery):
     if db.statebuffer(call.from_user.id)==6:
         if db.state_broadcast_boxer(call.from_user.id)==0:
@@ -315,7 +325,7 @@ async def broad(call:CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="cancelmanhwasub")
+@dp.callback_query_handler(text="cancelmanhwasub")
 async def cancelsubfunc(call:CallbackQuery):
     if db.statebuffer(call.from_user.id)==6:
         if db.state_broadcast_boxer(call.from_user.id)==call.from_user.id:
@@ -341,7 +351,7 @@ async def cancelsubfunc(call:CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="саб")
+@dp.callback_query_handler(text="саб")
 async def subfunc(call:CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -351,7 +361,7 @@ async def subfunc(call:CallbackQuery):
     else:
         await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
 
-@dp.callback_query_handler(text_contains="топ")
+@dp.callback_query_handler(text="топ")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -359,7 +369,7 @@ async def process_video_command(call: CallbackQuery):
     await bot.delete_message(call.from_user.id, call.message.message_id)
     await call.message.answer('🤔 что же выбрать', reply_markup=keyboardmanhwasetup.clavaViborGenre)
 
-@dp.callback_query_handler(text_contains="Romantik")
+@dp.callback_query_handler(text="Romantik")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -368,7 +378,7 @@ async def process_video_command(call: CallbackQuery):
     await call.message.answer('🤔 что же выбрать', reply_markup=keyboardmanhwasetup.Clavaromantik)
 
 
-@dp.callback_query_handler(text_contains="Ekhn")
+@dp.callback_query_handler(text="Ekhn")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -377,7 +387,7 @@ async def process_video_command(call: CallbackQuery):
     await call.message.answer('🤔 что же выбрать', reply_markup=keyboardmanhwasetup.ClavaEkhn)
 
 
-@dp.callback_query_handler(text_contains="Triller")
+@dp.callback_query_handler(text="Triller")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -385,7 +395,7 @@ async def process_video_command(call: CallbackQuery):
     await bot.delete_message(call.from_user.id, call.message.message_id)
     await call.message.answer('🤔 что же выбрать', reply_markup=keyboardmanhwasetup.clavaTriller)
 
-@dp.callback_query_handler(text_contains="Cultivation")
+@dp.callback_query_handler(text="Cultivation")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -393,7 +403,7 @@ async def process_video_command(call: CallbackQuery):
     await bot.delete_message(call.from_user.id, call.message.message_id)
     await call.message.answer('🤔 что же выбрать', reply_markup=keyboardmanhwasetup.ClavaCultivation)
 
-@dp.callback_query_handler(text_contains="Isekai")
+@dp.callback_query_handler(text="Isekai")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -402,7 +412,7 @@ async def process_video_command(call: CallbackQuery):
     await call.message.answer('🤔 что же выбрать', reply_markup=keyboardmanhwasetup.ClavaIsekai)
 
 
-@dp.callback_query_handler(text_contains="Drama")
+@dp.callback_query_handler(text="Drama")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -412,7 +422,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="Back")
+@dp.callback_query_handler(text="Back")
 async def process_video_command(call: CallbackQuery):
     await bot.delete_message(call.from_user.id, call.message.message_id)
     await call.message.answer(text="буду рад обратной связи :) @bububucheel",reply_markup=keyboardmanhwasetup.clavaViborGenre)
@@ -420,7 +430,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
     db.addsearch(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="поиск главы")
+@dp.callback_query_handler(text="поиск главы")
 async def process_video_command(call: CallbackQuery):
     buffer=db.statebuffer(call.from_user.id) 
     await call.answer(cache_time=60)
@@ -461,7 +471,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="начать с начала")
+@dp.callback_query_handler(text="начать с начала")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -470,7 +480,7 @@ async def process_video_command(call: CallbackQuery):
     await call.message.answer('чтение с нулевой главы')
     await call.bot.send_document(call.from_user.id, document=Maindict[buffer][1], reply_markup=nextchapter)
 
-@dp.callback_query_handler(text_contains="next")
+@dp.callback_query_handler(text="next")
 async def nextSERIA(message:types.Message): 
     buffer=db.statebuffer(message.from_user.id)
     if db.statesearch(message.from_user.id) == 1:
@@ -486,7 +496,7 @@ async def nextSERIA(message:types.Message):
             await bot.send_message(message.from_user.id, text="кажется эта глава еще не добавлена :(,\n попробуй что нибудь другое", reply_markup=clavaTOP)
 
 
-@dp.callback_query_handler(text_contains="download")
+@dp.callback_query_handler(text="download")
 async def process_video_command(call: CallbackQuery):
     buffer=db.statebuffer(call.from_user.id)
     list_keys = list(Maindict[buffer].keys())
@@ -503,19 +513,37 @@ async def process_video_command(call: CallbackQuery):
     await bot.send_message(call.from_user.id, text="Хорошего чтения", reply_markup=returN)
 
 
-@dp.callback_query_handler(text="add_zakladki")
-async def zakladki(call:CallbackQuery):
-    user_id=call.from_user.id
-    buffer=db.statebuffer(call.from_user.id)
-    manhwa=str(Maindict[buffer].key)
+@dp.callback_query_handler(text="addToZakladki")
+async def addToZakladki(call:CallbackQuery):
+    buffer = db.statebuffer(call.from_user.id)
+    db.add_zakladka(call.from_user.id, buffer)
+    await bot.send_message(call.from_user.id, text= "Добавлено в закладки")
+
+@dp.callback_query_handler(text="DeleteZakladki")
+async def addToZakladki(call:CallbackQuery):
+    buffer = db.statebuffer(call.from_user.id)
+    db.delete_zakladka(call.from_user.id, buffer)
+    k=db.state_zakladka(call.from_user.id)
+    await bot.send_message(call.from_user.id, text=k)
     
 
     
 
-##### требует конкретной записи, но куда и как?????
-@dp.callback_query_handler(text="zakladki")
-async def zakladki(call:CallbackQuery):
-    user_id=call.from_user.id
+
+@dp.callback_query_handler(text="Myzakladki")
+async def addToZakladki(call:CallbackQuery):
+    ClavaZakladki = InlineKeyboardMarkup(row_width=1)
+    if db.state_zakladka(call.from_user.id) == []:
+        await bot.send_message(call.from_user.id, text="у вас пока не добавлены закладки", reply_markup=returN)
+    else:
+        k=db.state_zakladka(call.from_user.id)
+        print(k)
+        print(len(db.state_zakladka(call.from_user.id)))
+        i=0
+        while i<len(db.state_zakladka(call.from_user.id)):
+            ClavaZakladki.insert(keyboardmanhwasetup.EPTA[k[i]])
+            i+=1
+        await bot.send_message(call.from_user.id, text="ЗАКЛАДКИ", reply_markup=ClavaZakladki)
 
     pass # вариант реализации не оч понятен 
 
@@ -528,7 +556,7 @@ async def zakladki(call:CallbackQuery):
 
 #####блок callbackov манхв#####
 
-@dp.callback_query_handler(text_contains="Eliced")
+@dp.callback_query_handler(text="Eliced")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -546,7 +574,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="SuicideBoy")
+@dp.callback_query_handler(text="SuicideBoy")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -563,7 +591,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="Boxer")
+@dp.callback_query_handler(text="Boxer")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -581,7 +609,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
     #db.statebuffer(call.from_user.id)
 #########сделать
-@dp.callback_query_handler(text_contains="Bastard")
+@dp.callback_query_handler(text="Bastard")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -597,7 +625,7 @@ async def process_video_command(call: CallbackQuery):
     buffer=7
     db.addbuffer(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="antifanatka")
+@dp.callback_query_handler(text="antifanatka")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -613,7 +641,7 @@ async def process_video_command(call: CallbackQuery):
     buffer=8
     db.addbuffer(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="queenwithscalpel")
+@dp.callback_query_handler(text="queenwithscalpel")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -629,7 +657,7 @@ async def process_video_command(call: CallbackQuery):
     buffer=9
     db.addbuffer(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="odnazhprinc")
+@dp.callback_query_handler(text="odnazhprinc")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -645,7 +673,7 @@ async def process_video_command(call: CallbackQuery):
     buffer=10
     db.addbuffer(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="chertovka")
+@dp.callback_query_handler(text="chertovka")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -663,7 +691,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="chizel")
+@dp.callback_query_handler(text="chizel")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -679,7 +707,7 @@ async def process_video_command(call: CallbackQuery):
     buffer=12
     db.addbuffer(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="Born")
+@dp.callback_query_handler(text="Born")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -696,7 +724,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
     
 
-@dp.callback_query_handler(text_contains="Annara")
+@dp.callback_query_handler(text="Annara")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -713,7 +741,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="SweetHome")
+@dp.callback_query_handler(text="SweetHome")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -730,7 +758,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="KRD")
+@dp.callback_query_handler(text="KRD")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -748,7 +776,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="MyfirstLove")
+@dp.callback_query_handler(text="MyfirstLove")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -765,7 +793,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="LoveYourEnemy")
+@dp.callback_query_handler(text="LoveYourEnemy")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -782,7 +810,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="Svinarnik")
+@dp.callback_query_handler(text="Svinarnik")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -799,7 +827,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="Vetrolom")
+@dp.callback_query_handler(text="Vetrolom")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -817,7 +845,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="VosvrashenieMax")
+@dp.callback_query_handler(text="VosvrashenieMax")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -833,7 +861,7 @@ async def process_video_command(call: CallbackQuery):
     buffer=22
     db.addbuffer(call.from_user.id, buffer)
 
-@dp.callback_query_handler(text_contains="VtorayShiznZlodeyki")
+@dp.callback_query_handler(text="VtorayShiznZlodeyki")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -850,7 +878,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="MirKot")
+@dp.callback_query_handler(text="MirKot")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -869,7 +897,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="tridvedma")
+@dp.callback_query_handler(text="tridvedma")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -889,7 +917,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="charstvoboevixisk")
+@dp.callback_query_handler(text="charstvoboevixisk")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -909,7 +937,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="zlodeykaperevnulac")
+@dp.callback_query_handler(text="zlodeykaperevnulac")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -930,7 +958,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="kusatludeiinepravilno")
+@dp.callback_query_handler(text="kusatludeiinepravilno")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -950,7 +978,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="svyatidol")
+@dp.callback_query_handler(text="svyatidol")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -970,7 +998,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="yastalamateriugg")
+@dp.callback_query_handler(text="yastalamateriugg")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -987,7 +1015,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="TokyoGhoul")
+@dp.callback_query_handler(text="TokyoGhoul")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -1005,7 +1033,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="TokyoGhoulRE")
+@dp.callback_query_handler(text="TokyoGhoulRE")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -1023,7 +1051,7 @@ async def process_video_command(call: CallbackQuery):
 
 
 
-@dp.callback_query_handler(text_contains="ReinkarVoen")
+@dp.callback_query_handler(text="ReinkarVoen")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -1040,7 +1068,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="SaveMe")
+@dp.callback_query_handler(text="SaveMe")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -1057,7 +1085,7 @@ async def process_video_command(call: CallbackQuery):
     db.addbuffer(call.from_user.id, buffer)
 
 
-@dp.callback_query_handler(text_contains="NeudPravda")
+@dp.callback_query_handler(text="NeudPravda")
 async def process_video_command(call: CallbackQuery):
     await call.answer(cache_time=60)
     callback_data = call.data
@@ -1076,12 +1104,70 @@ async def process_video_command(call: CallbackQuery):
 
 
 
+@dp.callback_query_handler(text="tvoeImya")
+async def process_video_command(call: CallbackQuery):
+    await call.answer(cache_time=60)
+    callback_data = call.data
+    logging.info(f"callback_data='{callback_data}'")
+    if check_sub_channel(await bot.get_chat_member(chat_id=channel_id, user_id=call.from_user.id)):
+        await bot.delete_message(call.from_user.id, call.message.message_id)
+        await bot.send_photo(call.from_user.id, caption='*Описание:* \n Девушка из провинциальной деревушки "Итомори". Парень из Токио. Их судьбы никогда бы не пересеклись, если бы не вмешалась мистика. Однажды, Мицука, именно так зовут девушку, загадывает желание - "стать симпатичным парнем из Токио" и оно сбывается. Вот только в моменты, когда она становится этим симпатичным парнем, Таки, так зовут парня, становится ей. Они в буквальном смысле - меняются местами.', photo="AgACAgIAAxkBAAEPZvFiYWEEhwkSsMshvGR8gwcEog5FIAACqbkxG2TyCEvWMnlS4ONkawEAAwIAA3kAAyQE", reply_markup=keyboardmainmenu.watchFilm, parse_mode="Markdown")
+        
+        
+    else:
+        await bot.delete_message(call.from_user.id, call.message.message_id)
+        await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
+    buffer=100
+    db.addbuffer(call.from_user.id, buffer)
+
+
+
+@dp.callback_query_handler(text="dityaShud")
+async def process_video_command(call: CallbackQuery):
+    await call.answer(cache_time=60)
+    callback_data = call.data
+    logging.info(f"callback_data='{callback_data}'")
+    if check_sub_channel(await bot.get_chat_member(chat_id=channel_id, user_id=call.from_user.id)):
+        await bot.delete_message(call.from_user.id, call.message.message_id)
+
+        await bot.send_photo(call.from_user.id, caption='*Описание:* \n История происходит в двух реальностях: человеческом мире (Сибуя, Токио) и мире монстров (Сибутэнмати). В этих двух мирах, которые не должны пересекаться, живут одинокий мальчик и одинокий монстр. Однажды случается так, что мальчик попадает в мир монстров, становится учеником монстра по имени Куматэцу и принимает новое имя Кюта.', photo="AgACAgIAAxkBAAEPZzZiYW0obGxTH8CH9GmtgmSRicixHQACvbkxG2TyCEs4Hw0pQ9L86wEAAwIAA3gAAyQE", reply_markup=keyboardmainmenu.watchFilm, parse_mode="Markdown")
+        
+    else:
+        await bot.delete_message(call.from_user.id, call.message.message_id)
+        await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
+    buffer=101
+    db.addbuffer(call.from_user.id, buffer)
+
+
+@dp.callback_query_handler(text="KRDInfinityPoezd")
+async def process_video_command(call: CallbackQuery):
+    await call.answer(cache_time=60)
+    callback_data = call.data
+    logging.info(f"callback_data='{callback_data}'")
+    if check_sub_channel(await bot.get_chat_member(chat_id=channel_id, user_id=call.from_user.id)):
+        await bot.delete_message(call.from_user.id, call.message.message_id)
+        await bot.send_photo(call.from_user.id, caption='*Описание:* \n На «Бесконечном поезде» пропадают люди. Подозревая, что это проделки демонов, на поезд отправляют Рэнгоку Кёджиро, Хашира Пламени, а также наших героев - Танджиро, Зэницу и Иноске. Сможет ли новоиспечённый отряд разобраться, какую страшную тайну таит в себе этот поезд?', photo="AgACAgIAAxkBAAEPZvNiYWEImVdM4-T5whC7vV7U-UOKDQACqrkxG2TyCEsAAZG2oZVNmsUBAAMCAAN5AAMkBA", reply_markup=keyboardmainmenu.watchFilm, parse_mode="Markdown")
+        
+    else:
+        await bot.delete_message(call.from_user.id, call.message.message_id)
+        await call.bot.send_message(call.from_user.id, 'Для просмотра сначала подпишись на канал', reply_markup=checkSubm)
+    buffer=102
+    db.addbuffer(call.from_user.id, buffer)
 
 
 
 
 
 
+@dp.callback_query_handler(text_contains="watch")
+async def process_video_command(call: CallbackQuery):
+    await call.answer(cache_time=60)
+    callback_data = call.data
+    logging.info(f"callback_data='{callback_data}'")
+    buffer=db.statebuffer(call.from_user.id)
+    await call.message.answer('присылаю...')
+    db.addsearch(call.from_user.id, 1)
+    await call.bot.send_video(call.from_user.id, video=Maindict[buffer][1], reply_markup=returN)
 
 
 

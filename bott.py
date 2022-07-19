@@ -34,7 +34,7 @@ from aiogram_broadcaster import TextBroadcaster
 from aiogram_broadcaster import MessageBroadcaster
 from aiogram.dispatcher import FSMContext
 from db import Database, get
-from pyqiwip2p import QiwiP2P
+#from pyqiwip2p import QiwiP2P
 from pathlib import Path
 
 #if get.get_user_num(1)>1095:
@@ -44,7 +44,7 @@ basa='testdatabase1.db'
 db=Database(basa)
 S=stateManhwa()
 storage=MemoryStorage()
-p2p=QiwiP2P(auth_key=QIWI_TOKEN)
+#p2p=P2P(auth_key=QIWI_TOKEN)
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())

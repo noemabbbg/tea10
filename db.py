@@ -6,7 +6,7 @@ import array
 from dictant import SuicideBoy
 
 
-basa='testdatabase1.db'
+basa='brat9.db'
 
 
 class Database():

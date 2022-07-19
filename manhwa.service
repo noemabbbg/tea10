@@ -1,0 +1,14 @@
+[Unit]
+Description=Telegram Bot
+After=network.target
+
+[Service]
+User=root
+Group=root
+
+WorkingDirectory=/home/bots/tea10/
+Environment="PYTHONPATH=/home/bots/tea10/"
+ExecStart=/home/bots/tea10/manhwavenv/bin/python /home/bots/tea10/bott.py
+
+[Install]
+WantedBy=multi-user.target
